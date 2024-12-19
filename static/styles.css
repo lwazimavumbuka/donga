@@ -30,7 +30,7 @@ section{
     min-height: 100vh;
     padding: 20px 20px;
 }
-.home-content{
+.home-content, .upload-section{
     width: 100%;
     min-height: 95vh;
     border-radius: 50px;
@@ -44,7 +44,7 @@ section{
         linear-gradient(#eee .1em, transparent .1em);
         background-size: 100% 5em;
 }
-.home-content .home-color{
+.home-content .home-color, .upload-section{
     /*background-color: rgba(0, 26, 255, 0.13);*/
     background-color: rgba(255, 213, 0, 0.087);
     width: 100%;
@@ -123,4 +123,93 @@ nav a:hover{
 .heading h2{
     font-size: 25px;
     margin: 20px 10px;
+}
+.upload-section{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    text-wrap: wrap;
+    flex-grow: 1;
+}
+.upload-section h1{
+    font-size: 50px;
+}
+.upload-section .wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-self: center;
+    width: 40%;
+}
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 167px;
+    border: 2px dashed black;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+form:hover{
+    background-color: #eee;
+}
+form i{
+    font-size: 50px;
+}
+form p{
+    font-size: 20px;
+}
+.files{
+    width: 100%;
+}
+.row{
+    margin-bottom: 5px;
+    list-style: none;
+    padding: 15px;
+    border: 2px dashed black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.row i{
+    font-size: 30px;
+}
+.row span{
+    font-size: 16px;
+}
+.progress-area .row .content{
+    width: 100%;
+    margin-left: 15px;
+}
+.progress-area .details{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.progress-area .progress-bar{
+    height: 6px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 30px;
+}
+.progress-bar .progress{
+    height: 100%;
+    width: 80%;
+    background-color: black;
+    border-radius: inherit;
+}
+.uploaded-area .row .content{
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+.uploaded-area .row .details{
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
 }
