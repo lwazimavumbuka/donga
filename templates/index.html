@@ -41,13 +41,13 @@
 
                 <div class="wrapper">
                     <form action="#">
-                        <input type="file" class="file-input" hidden>
+                        <input type="file" id="file" class="file-input" name="file" hidden>
                         <i class='bx bxs-cloud-upload'></i>
                         <p>Upload a video or audio file here</p>
                     </form>
     
-                    <div class="files">
-                        <div class="progress-area">
+                    <div class="files" id="files">
+                        <!-- <div class="progress-area">
                             <li class="row">
                                 <i class='bx bxs-file'></i>
                                 <div class="content">
@@ -63,7 +63,7 @@
                                 </div>
                             </li>             
                         </div>
-                        <div class="uploaded-area">
+                        <div class="uploaded-area" id="uploaded-area">
                             <li class="row">
                                 <div class="content">
                                     <i class='bx bxs-file'></i>
@@ -72,11 +72,12 @@
                                         <span class="size">70KB</span>
                                     </div>
                                 </div>
-                                <i class='bx bxs-like'></i>
+                                <i class='bx bx-check'></i>
                             </li>
-                        </div>
+                        </div>-->
                         
                     </div>
+                    <button onclick="get_notes()" id="generate_notes">Generate notes</button>
                     
                     
                 </div>

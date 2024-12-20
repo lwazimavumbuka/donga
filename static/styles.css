@@ -88,7 +88,7 @@ nav a{
 nav a:hover{
     border-bottom: 1px solid black;
 }
-.btn, .heading a{
+.btn, .heading a, button{
     font-size: 15px;
     font-weight: bold;
     border-radius: 15px;
@@ -203,12 +203,12 @@ form p{
     background-color: black;
     border-radius: inherit;
 }
-.uploaded-area .row .content{
+.uploaded .row .content{
     display: flex;
     align-items: center;
     text-align: left;
 }
-.uploaded-area .row .details{
+.uploaded .row .details{
     display: flex;
     flex-direction: column;
     margin-left: 15px;
