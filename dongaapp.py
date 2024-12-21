@@ -4,6 +4,8 @@ import requests
 from moviepy import VideoFileClip
 import os
 import whisper
+from concurrent.futures import ProcessPoolExecutor
+import time
 
 dongaapp = Flask(__name__)
 
@@ -62,17 +64,29 @@ def generate_audio():
     filepath = request.json
 
     clip = VideoFileClip(filepath)
-    len = int(clip.duration)-1
+    cliplen = int(clip.duration)-1
     chunk_len = 60
     #clip = clip.subclipped(0, 30)
     #clip.audio.write_audiofile(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
     chunks = []
+    model_name = "tiny"
 
-    for i in range(0, len, chunk_len):
-        end_time = min(i + chunk_len, len)
+    start = time.time()
+    for i in range(0, cliplen, chunk_len):
+        end_time = min(i + chunk_len, cliplen)
         audio_clip = clip.subclipped(i, end_time)
         audio_clip.audio.write_audiofile(f"{dongaapp.config['UPLOAD_FOLDER']}chunk_{i // chunk_len}.mp3")
-        chunks.append(f"{dongaapp.config['UPLOAD_FOLDER']}chunk_{i // chunk_len}.mp3")
+        chunk_path = os.path.join(dongaapp.config['UPLOAD_FOLDER'], f"chunk_{i // chunk_len}.mp3")
+        chunks.append(chunk_path)
+        
+    with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+        results = list(executor.map(transcribe_chunks, chunks, [model_name] * len(chunks)))
+    
+    end = time.time()
+    print("combining results....")
+    print(end-start)
+    transcript = "\n".join(results)
+    print(transcript)
 
     #model = whisper.load_model("tiny")
     #result = model.transcribe(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
@@ -81,8 +95,10 @@ def generate_audio():
     print(filepath)
     return ''
 
-def transcribe_chunks():
-    return ''
+def transcribe_chunks(chunk_path, model_name="tiny"):
+    model = whisper.load_model(model_name)
+    result = model.transcribe(chunk_path)
+    return result['text']
     
 
 if __name__ == '__main__':
