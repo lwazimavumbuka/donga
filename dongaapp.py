@@ -62,14 +62,28 @@ def generate_audio():
     filepath = request.json
 
     clip = VideoFileClip(filepath)
-    clip.audio.write_audiofile(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
+    len = int(clip.duration)-1
+    chunk_len = 60
+    #clip = clip.subclipped(0, 30)
+    #clip.audio.write_audiofile(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
+    chunks = []
 
-    model = whisper.load_model("tiny")
-    result = model.transcribe(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
-    print(result['text'])
+    for i in range(0, len, chunk_len):
+        end_time = min(i + chunk_len, len)
+        audio_clip = clip.subclipped(i, end_time)
+        audio_clip.audio.write_audiofile(f"{dongaapp.config['UPLOAD_FOLDER']}chunk_{i // chunk_len}.mp3")
+        chunks.append(f"{dongaapp.config['UPLOAD_FOLDER']}chunk_{i // chunk_len}.mp3")
+
+    #model = whisper.load_model("tiny")
+    #result = model.transcribe(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
+    #print(result['text'])
 
     print(filepath)
     return ''
+
+def transcribe_chunks():
+    return ''
+    
 
 if __name__ == '__main__':
     dongaapp.run(debug=True)
