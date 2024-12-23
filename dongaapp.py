@@ -18,7 +18,6 @@ dongaapp = Flask(__name__)
 UPLOAD_FOLDER = 'C:/Users/Lenovo/Documents/Uploads/'
 dongaapp.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 files = []
-key = 'AIzaSyCWRIpZjIThwvrvAF6pddxsFCpT_44rsJA'
 
 IDENTITY = '''
 You are a highly focused, structured, and efficient note-taker 
@@ -90,7 +89,7 @@ Here is the text transcription to make notes of:\n
 @dongaapp.route("/")
 def home():
     files.clear()
-   # genai.configure(api_key="AIzaSyCWRIpZjIThwvrvAF6pddxsFCpT_44rsJA")
+   # genai.configure(api_key="Enter Your API KEY HERE")
    # model = genai.GenerativeModel("gemini-2.0-flash-exp")
    # response = model.generate_content("Write me notes study notes on this prompt make sure you organise the notes in a good structure with headings, subheadings, definitions and bullets. These will be written to a pdf so make sure to use a good format. Write the notes in a markdown format. return the results only do not say anything else. here is the prompt:Explain Theory of relativity")
    # #print(response.text)
