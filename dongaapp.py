@@ -18,6 +18,7 @@ dongaapp = Flask(__name__)
 UPLOAD_FOLDER = 'C:/Users/Lenovo/Documents/Uploads/'
 dongaapp.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 files = []
+key = 'AIzaSyCWRIpZjIThwvrvAF6pddxsFCpT_44rsJA'
 
 # Prompt
 IDENTITY = '''
@@ -90,6 +91,25 @@ Here is the text transcription to make notes of:\n
 @dongaapp.route("/")
 def home():
     files.clear()
+   # genai.configure(api_key="AIzaSyCWRIpZjIThwvrvAF6pddxsFCpT_44rsJA")
+   # model = genai.GenerativeModel("gemini-2.0-flash-exp")
+   # response = model.generate_content("Write me notes study notes on this prompt make sure you organise the notes in a good structure with headings, subheadings, definitions and bullets. These will be written to a pdf so make sure to use a good format. Write the notes in a markdown format. return the results only do not say anything else. here is the prompt:Explain Theory of relativity")
+   # #print(response.text)
+   # response_text = response.text
+   # html_content = markdown(response_text)
+   # HTML(string=html_content).write_pdf("notespdf")
+    
+   # pdf = FPDF()
+   # pdf.add_page()
+   # pdf.set_font('Arial', size=12)
+   # pdf.multi_cell(0, 10, response_text)
+   # pdf.output('notes.pdf')
+    
+    #pdf = build_pdf(latex_text)
+
+    #output_filename = "outputnotes.pdf"
+    #with open(output_filename, 'wb') as f:
+   #     f.write(pdf.data) 
     return render_template('index.html')
 
 @dongaapp.route("/display-file", methods=['POST'])
