@@ -18,8 +18,8 @@ dongaapp = Flask(__name__)
 UPLOAD_FOLDER = 'C:/Users/Lenovo/Documents/Uploads/'
 dongaapp.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 files = []
-key = 'AIzaSyCWRIpZjIThwvrvAF6pddxsFCpT_44rsJA'
 
+# Prompt
 IDENTITY = '''
 You are a highly focused, structured, and efficient note-taker 
 who processes text transcripts into high-quality study notes. 
@@ -82,7 +82,7 @@ Extract Key Points:
 - Ensure there is space between sections
 Your response should be the notes written in latex code, your response should 
 be raw latex code, nothing else, do not write anything else outside the latex code. 
-Just respond with the text of the notes in latex code. Just respond with latex. Do not include this in the first line : ```latex 
+Just respond with the text of the notes in latex code. Just respond with latex. Do not include this in the first line. Your response will be inserted on build_pdf() nethod of latex library python so make sure the code matches that : ```latex 
 and this in the end: ```. Include only any of these: includes:\\documentclass, \\begin{ document },\\end{ document} 
 Here is the text transcription to make notes of:\n
 '''
@@ -90,25 +90,6 @@ Here is the text transcription to make notes of:\n
 @dongaapp.route("/")
 def home():
     files.clear()
-   # genai.configure(api_key="AIzaSyCWRIpZjIThwvrvAF6pddxsFCpT_44rsJA")
-   # model = genai.GenerativeModel("gemini-2.0-flash-exp")
-   # response = model.generate_content("Write me notes study notes on this prompt make sure you organise the notes in a good structure with headings, subheadings, definitions and bullets. These will be written to a pdf so make sure to use a good format. Write the notes in a markdown format. return the results only do not say anything else. here is the prompt:Explain Theory of relativity")
-   # #print(response.text)
-   # response_text = response.text
-   # html_content = markdown(response_text)
-   # HTML(string=html_content).write_pdf("notespdf")
-    
-   # pdf = FPDF()
-   # pdf.add_page()
-   # pdf.set_font('Arial', size=12)
-   # pdf.multi_cell(0, 10, response_text)
-   # pdf.output('notes.pdf')
-    
-    #pdf = build_pdf(latex_text)
-
-    #output_filename = "outputnotes.pdf"
-    #with open(output_filename, 'wb') as f:
-   #     f.write(pdf.data) 
     return render_template('index.html')
 
 @dongaapp.route("/display-file", methods=['POST'])
@@ -147,9 +128,6 @@ def displayfile():
         })
         print(size)    
 
-    #clip = VideoFileClip('C:/Users/Lenovo/Documents/videoplayback.mp4')
-    #clip.audio.write_audiofile(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
-    #print(file_path)
     return jsonify(files)
 
 @dongaapp.route("/generate_audio", methods=['POST'])
@@ -157,11 +135,8 @@ def generate_audio():
     filepath = request.json
 
     clip = VideoFileClip(filepath)
-    clip = clip.subclipped(0,600)
     cliplen = int(clip.duration)-1
     chunk_len = 60
-    #clip = clip.subclipped(0, 30)
-    #clip.audio.write_audiofile(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
     chunks = []
     model_name = "tiny"
 
@@ -182,11 +157,12 @@ def generate_audio():
     transcript = "\n".join(results)
 
     #generating notes
-    genai.configure(api_key="AIzaSyCWRIpZjIThwvrvAF6pddxsFCpT_44rsJA")
+    genai.configure(api_key="YOUR API KEY")
     model = genai.GenerativeModel("gemini-2.0-flash-exp")
     response = model.generate_content(f"${IDENTITY} ${STEPS} ${transcript}")
     response_text = response.text
     response_text = response_text.replace("```latex","")
+    response_text = response_text.replace("```","")
     print(response_text)
     
     pdf = build_pdf(response_text)
@@ -196,16 +172,10 @@ def generate_audio():
         f.write(pdf.data)
 
 
-    #html_content = markdown(response_text)
-    #HTML(string=html_content).write_pdf("notes.pdf")
-    
 
 
     print(transcript)
 
-    #model = whisper.load_model("tiny")
-    #result = model.transcribe(f"{dongaapp.config['UPLOAD_FOLDER']}audio.mp3")
-    #print(result['text'])
 
     print(filepath)
     return ''
